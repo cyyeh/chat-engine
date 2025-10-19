@@ -77,8 +77,8 @@ Preferred communication style: Simple, everyday language.
 
 ### API Key Management
 - API keys are stored in local state (not persisted to database for security)
+- All providers require valid API keys
 - Validation occurs before sending messages - users are prompted to enter keys if missing
-- OpenAI can fall back to Replit AI Integrations if no user key is provided
 - Toast notifications alert users when API keys are required but missing
 
 ### Conversation Features
@@ -112,7 +112,7 @@ Currently not implemented - the application is designed for single-user or devel
 
 **OpenAI**:
 - SDK: `openai` package
-- Supports user-provided API key or falls back to Replit AI Integrations
+- Requires user-provided API key
 - Available models: gpt-4.1, gpt-4.1-mini, gpt-4.1-nano, gpt-5.1, gpt-5.1-mini, gpt-5.1-nano
 
 **Anthropic**:

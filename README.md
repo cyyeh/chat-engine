@@ -29,9 +29,9 @@ A ChatGPT-style conversational AI application with multi-LLM provider support. C
 ### Prerequisites
 - Node.js 18 or higher
 - API keys for the providers you want to use:
-  - OpenAI API key (optional - falls back to Replit AI Integrations)
-  - Anthropic API key (required for Claude)
-  - Google AI API key (required for Gemini)
+  - OpenAI API key (required)
+  - Anthropic API key (required)
+  - Google AI API key (required)
 
 ### Installation
 
@@ -57,12 +57,8 @@ Configure your API keys directly in the application:
 3. Enter your API key in the provider's settings card
 4. Choose your desired model from the dropdown
 
-**Note**: OpenAI will use Replit AI Integrations if you don't provide a key. Anthropic and Gemini require your own API keys.
+**Note**: All providers require valid API keys to function.
 
-#### Environment Variables (Optional)
-For OpenAI fallback configuration, set these environment variables:
-- `AI_INTEGRATIONS_OPENAI_API_KEY`: OpenAI API key for fallback
-- `AI_INTEGRATIONS_OPENAI_BASE_URL`: Custom OpenAI base URL for fallback
 
 ## Usage
 

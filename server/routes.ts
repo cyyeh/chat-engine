@@ -92,11 +92,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       try {
         if (provider === "openai") {
-          // Use user's API key if provided, otherwise use Replit AI Integrations
-          const openai = new OpenAI({
-            apiKey: apiKey || process.env.AI_INTEGRATIONS_OPENAI_API_KEY,
-            baseURL: apiKey ? undefined : process.env.AI_INTEGRATIONS_OPENAI_BASE_URL,
-          });
+          if (!apiKey) {
+            throw new Error("OpenAI API key is required");
+          }
+
+          const openai = new OpenAI({ apiKey });
 
           // the newest OpenAI model is "gpt-5" which was released August 7, 2025. do not change this unless explicitly requested by the user
           // Convert history to OpenAI format
