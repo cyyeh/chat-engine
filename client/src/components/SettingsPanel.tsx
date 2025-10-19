@@ -8,6 +8,8 @@ type SettingsPanelProps = {
   onClose: () => void;
   providers: LLMProvider[];
   onProviderModelChange: (providerId: string, model: string) => void;
+  onProviderActivate: (providerId: string) => void;
+  onProviderApiKeyChange: (providerId: string, apiKey: string) => void;
 };
 
 export function SettingsPanel({
@@ -15,6 +17,8 @@ export function SettingsPanel({
   onClose,
   providers,
   onProviderModelChange,
+  onProviderActivate,
+  onProviderApiKeyChange,
 }: SettingsPanelProps) {
   if (!isOpen) return null;
 
@@ -47,6 +51,10 @@ export function SettingsPanel({
               provider={provider}
               onModelChange={(model) =>
                 onProviderModelChange(provider.id, model)
+              }
+              onActivate={() => onProviderActivate(provider.id)}
+              onApiKeyChange={(apiKey) =>
+                onProviderApiKeyChange(provider.id, apiKey)
               }
             />
           ))}

@@ -32,6 +32,8 @@ export default function ChatPage() {
       models: ["gpt-4o", "gpt-4o-mini", "gpt-4-turbo", "gpt-3.5-turbo"],
       selectedModel: "gpt-4o",
       status: "active",
+      apiKey: "",
+      requiresApiKey: false,
     },
     {
       id: "anthropic",
@@ -39,6 +41,8 @@ export default function ChatPage() {
       models: ["claude-3-5-sonnet", "claude-3-opus", "claude-3-haiku"],
       selectedModel: "claude-3-5-sonnet",
       status: "inactive",
+      apiKey: "",
+      requiresApiKey: true,
     },
     {
       id: "gemini",
@@ -46,6 +50,8 @@ export default function ChatPage() {
       models: ["gemini-2.0-flash", "gemini-1.5-pro", "gemini-1.5-flash"],
       selectedModel: "gemini-2.0-flash",
       status: "inactive",
+      apiKey: "",
+      requiresApiKey: true,
     },
   ]);
 
@@ -126,6 +132,25 @@ export default function ChatPage() {
     console.log("Provider model changed:", providerId, model);
   };
 
+  const handleProviderActivate = (providerId: string) => {
+    setProviders(
+      providers.map((p) => ({
+        ...p,
+        status: p.id === providerId ? "active" : "inactive",
+      }))
+    );
+    console.log("Provider activated:", providerId);
+  };
+
+  const handleProviderApiKeyChange = (providerId: string, apiKey: string) => {
+    setProviders(
+      providers.map((p) =>
+        p.id === providerId ? { ...p, apiKey } : p
+      )
+    );
+    console.log("Provider API key changed:", providerId);
+  };
+
   const sidebarStyle = {
     "--sidebar-width": "16rem",
     "--sidebar-width-icon": "3rem",
@@ -184,6 +209,8 @@ export default function ChatPage() {
               onClose={() => setSettingsOpen(false)}
               providers={providers}
               onProviderModelChange={handleProviderModelChange}
+              onProviderActivate={handleProviderActivate}
+              onProviderApiKeyChange={handleProviderApiKeyChange}
             />
           </div>
         </div>

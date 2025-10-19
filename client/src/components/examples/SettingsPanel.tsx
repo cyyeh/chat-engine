@@ -8,6 +8,8 @@ export default function SettingsPanelExample() {
       models: ["gpt-4o", "gpt-4o-mini", "gpt-4-turbo"],
       selectedModel: "gpt-4o",
       status: "active" as const,
+      apiKey: "",
+      requiresApiKey: false,
     },
     {
       id: "anthropic",
@@ -15,6 +17,8 @@ export default function SettingsPanelExample() {
       models: ["claude-3-5-sonnet", "claude-3-opus", "claude-3-haiku"],
       selectedModel: "claude-3-5-sonnet",
       status: "inactive" as const,
+      apiKey: "",
+      requiresApiKey: true,
     },
     {
       id: "gemini",
@@ -22,6 +26,8 @@ export default function SettingsPanelExample() {
       models: ["gemini-2.0-flash", "gemini-1.5-pro", "gemini-1.5-flash"],
       selectedModel: "gemini-2.0-flash",
       status: "inactive" as const,
+      apiKey: "",
+      requiresApiKey: true,
     },
   ];
 
@@ -34,6 +40,10 @@ export default function SettingsPanelExample() {
         providers={providers}
         onProviderModelChange={(id, model) =>
           console.log("Provider model changed:", id, model)
+        }
+        onProviderActivate={(id) => console.log("Provider activated:", id)}
+        onProviderApiKeyChange={(id, key) =>
+          console.log("Provider API key changed:", id)
         }
       />
     </div>

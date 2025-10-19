@@ -1,5 +1,6 @@
 import { Card } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
 import {
   Select,
   SelectContent,
@@ -8,6 +9,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { SiOpenai, SiGoogle } from "react-icons/si";
 import { Brain } from "lucide-react";
 
@@ -17,11 +19,15 @@ export type LLMProvider = {
   models: string[];
   selectedModel: string;
   status: "active" | "inactive";
+  apiKey?: string;
+  requiresApiKey: boolean;
 };
 
 type ProviderCardProps = {
   provider: LLMProvider;
   onModelChange: (model: string) => void;
+  onActivate: () => void;
+  onApiKeyChange: (apiKey: string) => void;
 };
 
 const ProviderIcon = ({ providerId }: { providerId: string }) => {
@@ -37,12 +43,13 @@ const ProviderIcon = ({ providerId }: { providerId: string }) => {
   }
 };
 
-export function ProviderCard({ provider, onModelChange }: ProviderCardProps) {
+export function ProviderCard({ provider, onModelChange, onActivate, onApiKeyChange }: ProviderCardProps) {
   return (
     <Card
-      className={`p-4 space-y-4 ${
+      className={`p-4 space-y-4 cursor-pointer hover-elevate ${
         provider.status === "active" ? "border-primary" : ""
       }`}
+      onClick={onActivate}
       data-testid={`card-provider-${provider.id}`}
     >
       <div className="flex items-center justify-between">
@@ -57,7 +64,7 @@ export function ProviderCard({ provider, onModelChange }: ProviderCardProps) {
           {provider.status}
         </Badge>
       </div>
-      <div className="space-y-2">
+      <div className="space-y-2" onClick={(e) => e.stopPropagation()}>
         <Label htmlFor={`model-${provider.id}`}>Model</Label>
         <Select value={provider.selectedModel} onValueChange={onModelChange}>
           <SelectTrigger id={`model-${provider.id}`} data-testid={`select-model-${provider.id}`}>
@@ -72,6 +79,24 @@ export function ProviderCard({ provider, onModelChange }: ProviderCardProps) {
           </SelectContent>
         </Select>
       </div>
+      {provider.requiresApiKey && (
+        <div className="space-y-2" onClick={(e) => e.stopPropagation()}>
+          <Label htmlFor={`apikey-${provider.id}`}>API Key</Label>
+          <Input
+            id={`apikey-${provider.id}`}
+            type="password"
+            value={provider.apiKey || ""}
+            onChange={(e) => onApiKeyChange(e.target.value)}
+            placeholder="Enter your API key"
+            data-testid={`input-apikey-${provider.id}`}
+          />
+          <p className="text-xs text-muted-foreground">
+            {provider.id === "openai" && "Get your API key from platform.openai.com"}
+            {provider.id === "anthropic" && "Get your API key from console.anthropic.com"}
+            {provider.id === "gemini" && "Get your API key from makersuite.google.com"}
+          </p>
+        </div>
+      )}
     </Card>
   );
 }

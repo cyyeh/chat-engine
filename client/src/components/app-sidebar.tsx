@@ -54,27 +54,28 @@ export function AppSidebar({
               <SidebarMenu>
                 {conversations.map((conversation) => (
                   <SidebarMenuItem key={conversation.id}>
-                    <SidebarMenuButton
-                      onClick={() => onSelectConversation(conversation.id)}
-                      isActive={activeConversationId === conversation.id}
-                      className="group relative"
-                      data-testid={`button-conversation-${conversation.id}`}
-                    >
-                      <MessageSquare className="w-4 h-4" />
-                      <span className="flex-1 truncate">{conversation.title}</span>
-                      <Button
-                        variant="ghost"
-                        size="icon"
-                        className="h-6 w-6 opacity-0 group-hover:opacity-100"
+                    <div className="relative group">
+                      <SidebarMenuButton
+                        onClick={() => onSelectConversation(conversation.id)}
+                        isActive={activeConversationId === conversation.id}
+                        data-testid={`button-conversation-${conversation.id}`}
+                      >
+                        <MessageSquare className="w-4 h-4" />
+                        <span className="flex-1 truncate">{conversation.title}</span>
+                      </SidebarMenuButton>
+                      <div
+                        className="absolute right-2 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100"
                         onClick={(e) => {
                           e.stopPropagation();
                           onDeleteConversation(conversation.id);
                         }}
                         data-testid={`button-delete-${conversation.id}`}
                       >
-                        <Trash2 className="w-3 h-3" />
-                      </Button>
-                    </SidebarMenuButton>
+                        <div className="w-6 h-6 flex items-center justify-center hover-elevate rounded-md cursor-pointer">
+                          <Trash2 className="w-3 h-3" />
+                        </div>
+                      </div>
+                    </div>
                   </SidebarMenuItem>
                 ))}
               </SidebarMenu>
