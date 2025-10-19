@@ -68,6 +68,33 @@ Preferred communication style: Simple, everyday language.
 
 **Design Rationale**: The schema separates conversations from messages for efficient querying and allows multiple messages per conversation while tracking which AI provider generated each response.
 
+## Key Features
+
+### Multi-Provider Support
+- Users can switch between OpenAI, Anthropic, and Google Gemini providers
+- Each provider has a dedicated settings card with model selection and API key configuration
+- Active provider indicator shows which provider is currently in use
+
+### API Key Management
+- API keys are stored in local state (not persisted to database for security)
+- Validation occurs before sending messages - users are prompted to enter keys if missing
+- OpenAI can fall back to Replit AI Integrations if no user key is provided
+- Toast notifications alert users when API keys are required but missing
+
+### Conversation Features
+- Create multiple conversations with automatic titles
+- Messages stream in real-time character by character
+- Full conversation history is maintained and sent to LLMs for context-aware responses
+- Delete conversations from the sidebar
+- Conversation list shows most recent conversations first
+
+### User Interface
+- ChatGPT-inspired three-column layout: sidebar, chat area, settings panel
+- Dark mode as default with light mode toggle
+- Responsive design with collapsible sidebar
+- Typing indicator during AI response generation
+- Markdown rendering for message content with syntax-highlighted code blocks
+
 ### Authentication & Authorization
 
 Currently not implemented - the application is designed for single-user or development use. Authentication would need to be added for multi-user production deployments.
@@ -85,18 +112,18 @@ Currently not implemented - the application is designed for single-user or devel
 
 **OpenAI**:
 - SDK: `openai` package
-- Requires API key configuration
-- Supports GPT-4 and GPT-3.5 model families
+- Supports user-provided API key or falls back to Replit AI Integrations
+- Available models: gpt-4.1, gpt-4.1-mini, gpt-4.1-nano, gpt-5.1, gpt-5.1-mini, gpt-5.1-nano
 
 **Anthropic**:
 - SDK: `@anthropic-ai/sdk`
-- Requires API key configuration  
-- Supports Claude 3 model family (Opus, Sonnet, Haiku)
+- Requires user-provided API key
+- Available models: claude-3-5-sonnet, claude-3-opus, claude-3-haiku
 
 **Google Gemini**:
 - SDK: `@google/genai`
-- Requires API key configuration
-- Supports Gemini 1.5 and 2.0 models
+- Requires user-provided API key
+- Available models: gemini-2.0-flash, gemini-1.5-pro, gemini-1.5-flash
 
 ### Development Tools
 
