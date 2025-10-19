@@ -4,11 +4,11 @@ export default function ProviderCardExample() {
   const provider = {
     id: "openai",
     name: "OpenAI",
-    models: ["gpt-4o", "gpt-4o-mini", "gpt-4-turbo"],
-    selectedModel: "gpt-4o",
+    models: ["gpt-4.1", "gpt-4.1-mini", "gpt-4.1-nano", "gpt-5.1", "gpt-5.1-mini", "gpt-5.1-nano"],
+    selectedModel: "gpt-4.1",
     status: "active" as const,
     apiKey: "",
-    requiresApiKey: false,
+    requiresApiKey: true,
   };
 
   return (

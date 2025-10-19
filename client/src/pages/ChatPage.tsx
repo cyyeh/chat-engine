@@ -3,6 +3,7 @@ import { Settings } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { useToast } from "@/hooks/use-toast";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { AppSidebar, type Conversation } from "@/components/app-sidebar";
 import { ChatMessage, type Message } from "@/components/ChatMessage";
@@ -13,6 +14,7 @@ import { TypingIndicator } from "@/components/TypingIndicator";
 import { type LLMProvider } from "@/components/ProviderCard";
 
 export default function ChatPage() {
+  const { toast } = useToast();
   const [conversations, setConversations] = useState<Conversation[]>([
     {
       id: "1",
@@ -29,11 +31,11 @@ export default function ChatPage() {
     {
       id: "openai",
       name: "OpenAI",
-      models: ["gpt-4o", "gpt-4o-mini", "gpt-4-turbo", "gpt-3.5-turbo"],
-      selectedModel: "gpt-4o",
+      models: ["gpt-4.1", "gpt-4.1-mini", "gpt-4.1-nano", "gpt-5.1", "gpt-5.1-mini", "gpt-5.1-nano"],
+      selectedModel: "gpt-4.1",
       status: "active",
       apiKey: "",
-      requiresApiKey: false,
+      requiresApiKey: true,
     },
     {
       id: "anthropic",
@@ -88,6 +90,25 @@ export default function ChatPage() {
   };
 
   const handleSendMessage = (content: string) => {
+    if (!activeProvider) {
+      toast({
+        title: "No Provider Selected",
+        description: "Please select an LLM provider in settings.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    if (activeProvider.requiresApiKey && !activeProvider.apiKey?.trim()) {
+      toast({
+        title: "API Key Required",
+        description: `Please enter your ${activeProvider.name} API key in settings.`,
+        variant: "destructive",
+      });
+      setSettingsOpen(true);
+      return;
+    }
+
     const userMessage: Message = {
       id: Date.now().toString(),
       role: "user",
